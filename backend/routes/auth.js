@@ -90,7 +90,7 @@ router.post('/login',
         }
     })
     
-//ROUTE 2: Get User Detail. Using :POST "/api/auth/getuser" No login required
+//ROUTE 3: Get User Detail. Using :POST "/api/auth/getuser" No login required
 router.post('/getuser',fetchuser,async (req, res) => {
         try {
             const userId = req.user.id;
