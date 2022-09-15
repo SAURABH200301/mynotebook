@@ -1,0 +1,29 @@
+DOCUMENTATION OF INOTEBOOK
+
+the application will work on reactjs and mongodb.
+
+The Backend(MONGODB)
+MongoDB uses the mongoose to connect with applications. 
+const mongoose= require('mongoose')
+and a url shwown in db.js
+
+create a arrowed function named connectToMongo use mongoose.connect(mongourl); to get connected.
+
+to use mongo all over the development environment we export it 
+module.exports = connectToMongo;
+
+BCRYPTJS ::
+npm package used to keep the password protected
+
+JSON WEB TOKEN
+JWT consist of three parts
+1) header(algoithma and token)
+2) payload(data)
+3) verify signature
+
+express validator for the validation of mail name and password
+
+
+THE FRONTEND
+
+using Concurrently npm package to run Backend and FRONTEND server at same time
