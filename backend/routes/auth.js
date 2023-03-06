@@ -23,11 +23,12 @@ router.post('/createuser',
 
         //check whether the user with same email exist
         try {
-
+            
+            let success = false;
             let user = await User.findOne({ email: req.body.email });
 
             if (user) {
-                return res.status(400).json({ error: "Sorry a user with this email already exist" });
+                return res.status(400).json({ success, error: "Sorry a user with this email already exist" });
             }
             const salt = await bcrypt.genSalt(10);
             let secPass = await bcrypt.hash(req.body.password, salt);
@@ -43,8 +44,8 @@ router.post('/createuser',
                 }
             }
             const authToken = jwt.sign(data, JWT_SECRET);
-
-            res.json({ authToken })
+            success = true;
+            res.json({ success, authToken })
             // res.json(user);
         } catch (err) {
             console.log(err)
@@ -67,13 +68,14 @@ router.post('/login',
         const { email, password } = req.body;
         try {
             let user = await User.findOne({ email });
+            let success = false;
             if (!user)
-                return res.status(400).json({ error: "Try correct credentials" });
+                return res.status(400).json({ success, error: "Try correct credentials" });
 
             const passwordCompare = await bcrypt.compare(password, user.password);
 
             if (!passwordCompare) {
-                return res.status(400).json({ error: "Try correct credentials" });
+                return res.status(400).json({ success, error: "Try correct credentials" });
             }
 
             const data = {
@@ -82,24 +84,25 @@ router.post('/login',
                 }
             }
             const authtoken = jwt.sign(data, JWT_SECRET);
-            res.json({ authtoken });
+            success = true;
+            res.json({ success, authtoken });
 
         } catch (error) {
             console.log(error)
             res.status(500).json("Interal Server Error");
         }
     })
-    
+
 //ROUTE 3: Get User Detail. Using :POST "/api/auth/getuser" No login required
-router.post('/getuser',fetchuser,async (req, res) => {
-        try {
-            const userId = req.user.id;
-            const user = await User.findById(userId).select("-password");
-            res.send(user)
-        } catch (error) {
-            console.log(error)
-            res.status(500).json("Interal Server Error");
-        }
+router.post('/getuser', fetchuser, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findById(userId).select("-password");
+        res.send(user)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json("Interal Server Error");
+    }
 })
 
 module.exports = router;

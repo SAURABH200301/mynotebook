@@ -27,3 +27,13 @@ express validator for the validation of mail name and password
 THE FRONTEND
 
 using Concurrently npm package to run Backend and FRONTEND server at same time
+
+CONTEXT API
+used to pass the props without props drilling
+syntax ::::
+import { createContext } from "react";
+
+const noteContext = createContext()
+
+USELOCATION HOOK in react router
+uselocation returns the path of the page when changed 
